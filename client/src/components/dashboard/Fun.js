@@ -254,7 +254,7 @@ var MiniDrawer = (props) => {
     return (show_connection(friends1,props.userInfo.id))
   }
   else if(input_label === "Invite" ) {
-    return  (show_InviteRequest(myinvites,props.userInfo.id))
+    return  <Show_InviteRequest array={myinvites} userinfo={props.userInfo} />; 
   }
   else if(input_label === "Add_Connection" ) {
     return <SendReq myinfo={props.userInfo}/>
