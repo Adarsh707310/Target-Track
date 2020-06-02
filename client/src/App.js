@@ -16,6 +16,7 @@ import Add from "./components/dashboard/Add";
 import Mytodos from "./components/dashboard/Mytodos";
 import Edit from "./components/dashboard/Edit";
 import DevInfo from "./devinfo/DevInfo";
+import Share from "./components/dashboard/share"
 import "./App.css";
 
 // Check for token to keep user logged in
@@ -51,7 +52,9 @@ class App extends Component {
               <PrivateRoute exact path="/dashboard/add" component={Add} />
               <PrivateRoute exact path="/mytodos/:id" component={Mytodos} />
               <PrivateRoute exact path="/edit/:id" component={Edit} />
+              <PrivateRoute exact path="/share/:id" component={Share} />
               <PrivateRoute exact path="/devinfo" component={DevInfo} />
+
             </Switch>
           </div>
         </Router>

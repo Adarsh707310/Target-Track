@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { loginUser } from "../../actions/authActions";
+import FacebookLogin from 'react-facebook-login';
+import { loginUser, FacebookUserLogin } from "../../actions/authActions";
 import classnames from "classnames";
 import Login_image from '../image/login.jpg';
  
@@ -15,8 +16,7 @@ class Login extends Component {
       errors: {}
     };
   }
-
-  componentDidMount() {
+   componentDidMount() {
     // If logged in and user navigates to Login page, should redirect them to dashboard
     if (this.props.auth.isAuthenticated) {
       this.props.history.push(`/mytodos/${this.props.auth.user.id}`);
@@ -24,16 +24,30 @@ class Login extends Component {
   }
 
 componentWillReceiveProps(nextProps) {
+  const timer = setTimeout(() => {
     if (nextProps.auth.isAuthenticated) {
+      console.log(this.props.auth.user.id);
       this.props.history.push(`/mytodos/${this.props.auth.user.id}`); // push user to dashboard when they login
     }
+  }, 1000);
+    
 if (nextProps.errors) {
       this.setState({
         errors: nextProps.errors
       });
     }
   }
-
+  responseFacebook = response => {
+    console.log(response);
+    
+    const userData = {
+      email: response.email,
+      password: response.id,
+      name: response.name
+    };
+    this.props.FacebookUserLogin(userData);
+   
+}
 onChange = e => {
     this.setState({ [e.target.id]: e.target.value });
   };
@@ -124,7 +138,17 @@ return (
                 >
                   Login
                 </button>
+                <div style={{marginTop: "1rem"  , textColor: "white"}}>
+                <FacebookLogin
+                appId="577959766186394"
+                autoLoad={true}
+                fields="name,email"
+                callback={this.responseFacebook}
+                cssClass="waves-effect waves-light btn social facebook"
+              />
               </div>
+              </div>
+              
             </form>
             <div>
             .<br/><br/>
@@ -141,6 +165,7 @@ return (
 
 Login.propTypes = {
   loginUser: PropTypes.func.isRequired,
+  FacebookUserLogin: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
@@ -152,5 +177,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { loginUser }
+  { loginUser , FacebookUserLogin}
 )(Login);

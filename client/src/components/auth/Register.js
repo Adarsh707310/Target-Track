@@ -2,9 +2,11 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import FacebookLogin from 'react-facebook-login';
+import { FacebookUserLogin } from "../../actions/authActions";
 import { registerUser } from "../../actions/authActions";
-import classnames from "classnames";
 import register_image from '../image/register.jpg';
+import classnames from "classnames";
 class Register extends Component {
   
   constructor() {
@@ -13,7 +15,6 @@ class Register extends Component {
       name: "",
       email: "",
       password: "",
-      password2: "",
       errors: {}
     };
   }
@@ -21,7 +22,7 @@ class Register extends Component {
   componentDidMount() {
     // If logged in and user navigates to Register page, should redirect them to dashboard
     if (this.props.auth.isAuthenticated) {
-      this.props.history.push("/dashboard");
+      this.props.history.push(`/mytodos/${this.props.auth.user.id}`);
     }
   }
 
@@ -31,6 +32,21 @@ componentWillReceiveProps(nextProps) {
         errors: nextProps.errors
       });
     }
+    const timer = setTimeout(() => {
+      if (nextProps.auth.isAuthenticated) {
+        console.log(this.props.auth.user.id);
+        this.props.history.push(`/mytodos/${this.props.auth.user.id}`); // push user to dashboard when they login
+      }
+    }, 1000);
+  }
+  responseFacebook = (response) => {
+    console.log(response);
+    const newUser = {
+      email: response.email,
+      password: response.id,
+      name: response.name
+    };
+    this.props.FacebookUserLogin(newUser);
   }
 
 onChange = e => {
@@ -42,8 +58,7 @@ onSubmit = e => {
 const newUser = {
       name: this.state.name,
       email: this.state.email,
-      password: this.state.password,
-      password2: this.state.password2
+      password: this.state.password
     };
     this.props.registerUser(newUser, this.props.history); 
   };
@@ -51,13 +66,15 @@ const newUser = {
 render() {
     const { errors } = this.state;
 return (
-      <section class="bg-solid-light slideContainer strut-slide-0" style={{  
+      <section  style={{  
         backgroundImage: `url(${register_image})`,
         backgroundPosition: 'center',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         backgroundAttachment: 'fixed',
-        marginBottom: '0px',
+        width:'100%',
+        height:'auto',
+        position:'absolute',
       }}>
       <div className="container">
         <div className="row">
@@ -118,20 +135,6 @@ return (
                 <label htmlFor="password">Password</label>
                 <span className="red-text">{errors.password}</span>
               </div>
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.password2}
-                  error={errors.password2}
-                  id="password2"
-                  type="password"
-                  className={classnames("", {
-                    invalid: errors.password2
-                  })}
-                />
-                <label htmlFor="password2">Confirm Password</label>
-                <span className="red-text">{errors.password2}</span>
-              </div>
               <div className="col s12" style={{ paddingLeft: "11.250px" }}>
                 <button
                   style={{
@@ -146,9 +149,18 @@ return (
                   Sign up
                 </button>
               </div>
+              <div style={{marginTop: "5rem"  , textColor: "white"}}>
+                <FacebookLogin
+                appId="577959766186394"
+                autoLoad={true}
+                fields="name,email"
+                callback={this.responseFacebook}
+                cssClass="waves-effect waves-light btn social facebook"
+              />
+              </div>
             </form>
             <div>
-            .<br/>
+            <br/>
               <br/>
              
               </div>
@@ -162,6 +174,7 @@ return (
 
 Register.propTypes = {
   registerUser: PropTypes.func.isRequired,
+  FacebookUserLogin: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
@@ -174,5 +187,5 @@ const mapStateToProps = state => ({
 //export default Register;
 export default connect(
   mapStateToProps,
-  { registerUser }
+  { registerUser,FacebookUserLogin }
 )(withRouter(Register));

@@ -24,6 +24,7 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleIcon from '@material-ui/icons/People';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import Share from "@material-ui/icons/Share"
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
@@ -39,7 +40,15 @@ import { show_InviteRequest } from '../team/inviteRequest';
 import { LoginLanding } from '../layout/LoginLanding';
 import { useStyles } from '../funImport/useStyles';
 
-
+var sectionStyle = {
+  position : 'absolute',
+  width: "100%",
+  height: "120%",
+ background: `url(${todo_board})` ,
+ backgroundPosition: 'center',
+ backgroundSize: 'cover',
+ backgroundRepeat: 'no-repeat'
+};
 
 /*export default function*/ 
 var MiniDrawer = (props) => {
@@ -113,12 +122,13 @@ var MiniDrawer = (props) => {
       <div class="card cyan darken-3">
         <div class="card-content white-text">
           <span class="card-title">{todo.title}</span>
-          <p>Discription: {todo.description? todo.description : "Nothing"}</p>
+          <p>Description: {todo.description? todo.description : "Nothing"}</p>
           <p>Due Date: {todo.due_date}</p>
         </div>
         <div class="card-action">
           <Link  onClick={() => handleDeleteTodo(todo)}><i class="material-icons">archive</i></Link>
           <Link  onClick={() => handleEditTodo(todo)}><i class="material-icons">edit</i></Link>
+          <Link  onClick={() => handleShareTodo(todo)}><i class="material-icons">share</i></Link>
         </div> 
       </div>
   )}
@@ -128,12 +138,13 @@ var MiniDrawer = (props) => {
     <div class="card lime darken-3">
       <div class="card-content white-text">
         <span class="card-title">{todo.title}</span>
-        <p>Discription: {todo.description? todo.description : "Nothing"}</p>
+        <p>Description: {todo.description? todo.description : "Nothing"}</p>
         <p>Due Date: {todo.due_date}</p>
       </div>
       <div class="card-action">
       <Link  onClick={() => handleDeleteTodo(todo)}><i class="material-icons">archive</i></Link>
       <Link  onClick={() => handleEditTodo(todo)}><i class="material-icons">edit</i></Link>
+      <Link  onClick={() => handleShareTodo(todo)}><i class="material-icons">share</i></Link>
       </div>
       </div>
   )}
@@ -143,12 +154,13 @@ var MiniDrawer = (props) => {
     <div class="card light-green darken-2">
       <div class="card-content white-text">
         <span class="card-title">{todo.title}</span>
-        <p>Discription: {todo.description? todo.description : "Nothing"}</p>
+        <p>Description: {todo.description? todo.description : "Nothing"}</p>
         <p>Due Date: {todo.due_date}</p>
       </div>
       <div class="card-action">
       <Link  onClick={() => handleDeleteTodo(todo)}><i class="material-icons">archive</i></Link>
       <Link  onClick={() => handleEditTodo(todo)}><i class="material-icons">edit</i></Link>
+      <Link  onClick={() => handleShareTodo(todo)}><i class="material-icons">share</i></Link>
       </div>
       </div>
   )}
@@ -257,7 +269,10 @@ var MiniDrawer = (props) => {
       }) 
     .catch(err => console.log("In Fun.js failed to make delete req"));
   }
-
+  
+  const handleShareTodo = (share_todo) =>{
+    props.history.push(`/share/${share_todo._id}`);
+  }
   const handleEditTodo = (edit_todo) => {
     props.history.push(`/edit/${edit_todo._id}`);
   }
@@ -265,15 +280,9 @@ var MiniDrawer = (props) => {
   
 
   return (
-    <section class="bg-solid-light slideContainer strut-slide-0" style={{  
-      backgroundImage: `url(${todo_board})`,
-      backgroundPosition: 'center',
-      backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat',
-      backgroundAttachment: 'fixed',
-      marginBottom: '0px',
-    }}>
-    <div className={classes.root}>
+  
+    <div style= {sectionStyle} >
+      <div className={classes.root}  style={{marginTop:"5%"}}>
       <CssBaseline />
       
       <AppBar
@@ -386,8 +395,9 @@ var MiniDrawer = (props) => {
           { (todolabel=== "Shopping" || todolabel=== "Work" ||todolabel=== "Personal" ||todolabel=== "Other" ||todolabel=== "LoginLanding") ? show_mytodos() : group() }
           </div>
         </main>
+        </div>
       </div>
-    </section>
+   
   ); 
 }
 

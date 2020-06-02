@@ -4,6 +4,13 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import axios from 'axios';
+import 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  KeyboardTimePicker,
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -20,12 +27,15 @@ class Add extends Component {
       description: "",
       status   : "New",
       label    : "",
-      due_date : null, //material UI pickers
+      due_date : new Date('2020-05-20T21:11:54'), //material UI pickers
       add_date : Date.now,
       errors   : {}
     };
   }
- 
+  handleDateChange = (date) => {
+    this.setState({due_date: date});
+    console.log(this.state);
+  };
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({
@@ -64,7 +74,7 @@ onSubmit = e => {
         title    : "",
         description: "",
         status   : "New",
-        due_date : null,
+        due_date : new Date('2020-05-20T21:11:54'),
       })}
       )
       .catch(err => console.log({messge:"In Add.js unable to post NewTodo"})); 
@@ -154,20 +164,38 @@ return (
                     </Select>
                   </FormControl>
                 </div>
-
-                <div className="input-field col s12" style={{marginTop: "25px"}}>
-                  <input
-                    onChange={this.onChange}
-                    value={this.state.due_date}
-                    error={errors.due_date}
-                    id="due_date"
-                    type="Date"
-                    className={classnames("", { invalid: errors.due_date})}
-                  />
-                  <label htmlFor="due_date">Due Date</label>
-                  <span className="red-text">{errors.due_date}</span>
+                <div className="input-field col s12" style={{marginTop:"4%"}}>
+                      
+                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                       <KeyboardDatePicker
+                         margin="normal"
+                         id="dueDate"
+                         variant="outlined"
+                         format="dd/MM/yyyy"
+                         value={this.state.due_date}
+                         error={errors.due_date}
+                         onChange={this.handleDateChange}
+                         KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                
+                         }}
+                        
+                        />
+                        
+                    <KeyboardTimePicker
+                      margin="normal"
+                      id="time-picker"
+                      variant="outlined"
+                      value={this.state.due_date}
+                      error={errors.due_date}
+                      onChange={this.handleDateChange}
+                      KeyboardButtonProps={{
+                       'aria-label': 'change time',
+                      }}
+                     />
+                   </MuiPickersUtilsProvider>
                 </div>
-              
+    
                 <div className="center-align" >
                   <button
                     style={{
