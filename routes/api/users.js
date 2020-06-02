@@ -305,4 +305,27 @@ router.put("/addsendReq", (req, res) => {
     .catch((err) => console.log(err));
 });
 
+// new
+router.put("/deleteSendreq", (req, res) => {
+  User.findOneAndUpdate(
+    { _id: req.body.id },
+    {
+      $set: {
+        sendReq: req.body.array.filter((reqs) => reqs.id !== req.body.id),
+      },
+    },
+    { new: true, useFindAndModify: false }
+  )
+    .then((docs) => res.send(docs))
+    .catch((err) => console.log(err));
+});
+
+// new
+router.get("/mysendReq/:id", (req, res) => {
+  const _id = req.params.id;
+  User.findOne({ _id })
+    .then((docs) => res.json(docs.sendReq))
+    .catch((err) => console.log(err));
+});
+
 module.exports = router;
