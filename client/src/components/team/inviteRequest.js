@@ -27,6 +27,21 @@ const deleterequest = (obj) => {
   axios.put('/api/users/deletereq',docs)
   .then(res=>console.log("req deleted successfully"))
   .catch(err=>console.log("Not able to delete req"))
+  
+  // new
+    axios
+      .get(`/api/users/mysendReq/${obj.id}`)
+      .then((response) => this.setState({ mysendReq: response.data }))
+      .then((msg) => {
+        axios
+          .put("/api/users/deleteSendreq", {
+            id: obj.id,
+            array: this.state.mysentReq,
+          })
+          .then((res) => console.log("some success message"))
+          .catch((err) => console.log("some failed message"));
+      })
+      .catch((err) => console.log("some msg"));
 }
 
 const display_invites = () => {
