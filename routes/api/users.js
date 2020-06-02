@@ -238,12 +238,27 @@ router.get(`/edit/:id`, (req, res) => {
     .catch((err) => console.log(err));
 });
 
+// new replaced
 router.put("/acceptreq", (req, res) => {
   const Connection = {
     name: req.body.name,
     id: req.body.id,
   };
-  console.log(Connection);
+  const _Connection = {
+    name: req.body.myname,
+    id: req.body.my,
+  };
+  //console.log(Connection);
+  //console.log(_Connection);
+
+  User.findOneAndUpdate(
+    { _id: req.body.id },
+    { $addToSet: { connections: _Connection } },
+    { new: true, useFindAndModify: false }
+  )
+    .then((docs) => res.send(docs))
+    .catch((err) => console.log(err));
+
   User.findOneAndUpdate(
     { _id: req.body.my },
     { $addToSet: { connections: Connection } },
@@ -252,7 +267,6 @@ router.put("/acceptreq", (req, res) => {
     .then((docs) => res.send(docs))
     .catch((err) => console.log(err));
 });
-
 router.put("/deletereq", (req, res) => {
   User.findOneAndUpdate(
     { _id: req.body.my },
