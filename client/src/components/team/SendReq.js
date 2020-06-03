@@ -82,7 +82,13 @@ class SendReq extends Component {
         <br />
         <br />
         <br />
+        <br />
+        <div style={{height:"50%"}}>
+
       </div>
+      </div>
+      
+      
     );
   }
 
@@ -93,7 +99,6 @@ class SendReq extends Component {
           <div class="card-content white-text">
             <span class="card-title">{user.name}</span>
             <p>Email: {user.email}</p>
-            <p>_id: {user._id}</p>
           </div>
           <div class="card-action">
             {this.state.friends.find((friend) => friend.id === user._id) ===
@@ -139,6 +144,7 @@ class SendReq extends Component {
             ? this.display_allusers()
             : this.fill_page()}
         </div>
+        {this.fill_page()}
       </div>
     );
   }

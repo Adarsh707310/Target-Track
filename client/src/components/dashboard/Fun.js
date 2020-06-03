@@ -36,14 +36,14 @@ import '../../App2.css';
 import todo_board from './todo_board.jpg';
 import { show_connection } from '../team/connection';
 import SendReq  from '../team/SendReq';
-import { show_InviteRequest } from '../team/inviteRequest';
+import  Show_InviteRequest  from '../team/inviteRequest';
 import { LoginLanding } from '../layout/LoginLanding';
 import { useStyles } from '../funImport/useStyles';
 
 var sectionStyle = {
   position : 'absolute',
   width: "100%",
-  height: "120%",
+  height: "150%",
  background: `url(${todo_board})` ,
  backgroundPosition: 'center',
  backgroundSize: 'cover',
@@ -123,7 +123,8 @@ var MiniDrawer = (props) => {
         <div class="card-content white-text">
           <span class="card-title">{todo.title}</span>
           <p>Description: {todo.description? todo.description : "Nothing"}</p>
-          <p>Due Date: {todo.due_date}</p>
+          <p>Due Date: {todo.due_date.split("T")[0]}</p>
+    <p>Due Time :{todo.due_date.split("T")[1].split(".")[0]}</p>
         </div>
         <div class="card-action">
           <Link  onClick={() => handleDeleteTodo(todo)}><i class="material-icons">archive</i></Link>
@@ -139,7 +140,8 @@ var MiniDrawer = (props) => {
       <div class="card-content white-text">
         <span class="card-title">{todo.title}</span>
         <p>Description: {todo.description? todo.description : "Nothing"}</p>
-        <p>Due Date: {todo.due_date}</p>
+        <p>Due Date: {todo.due_date.split("T")[0]}</p>
+    <p>Due Time :{todo.due_date.split("T")[1].split(".")[0]}</p>
       </div>
       <div class="card-action">
       <Link  onClick={() => handleDeleteTodo(todo)}><i class="material-icons">archive</i></Link>
@@ -155,7 +157,8 @@ var MiniDrawer = (props) => {
       <div class="card-content white-text">
         <span class="card-title">{todo.title}</span>
         <p>Description: {todo.description? todo.description : "Nothing"}</p>
-        <p>Due Date: {todo.due_date}</p>
+        <p>Due Date: {todo.due_date.split("T")[0]}</p>
+    <p>Due Time :{todo.due_date.split("T")[1].split(".")[0]}</p>
       </div>
       <div class="card-action">
       <Link  onClick={() => handleDeleteTodo(todo)}><i class="material-icons">archive</i></Link>
@@ -381,10 +384,6 @@ var MiniDrawer = (props) => {
             <ListItemText primary={"Add Connection"} />
           </ListItem>
           
-          <ListItem button key={"developer Information"} component={Link} to={"/devinfo"}>
-            <ListItemIcon>{<PersonIcon />}</ListItemIcon>
-            <ListItemText primary={"developer Information"} />
-          </ListItem>
 
         </List>
       </Drawer>

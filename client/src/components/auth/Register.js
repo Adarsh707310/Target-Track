@@ -149,7 +149,7 @@ return (
                   Sign up
                 </button>
               </div>
-              <div style={{marginTop: "5rem"  , textColor: "white"}}>
+              <div style={{marginTop: "10rem"  , textColor: "white"}}>
                 <FacebookLogin
                 appId="577959766186394"
                 autoLoad={true}
@@ -162,6 +162,7 @@ return (
             <div>
             <br/>
               <br/>
+              <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
              
               </div>
           </div>

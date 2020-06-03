@@ -13,7 +13,7 @@ export const show_connection = (array,userId) => {
     <div class="card cyan darken-3">
       <div class="card-content white-text">
         <span class="card-title">{obj.name}</span>
-        <p>Information: {obj.id}</p>
+
       </div>
   </div>
   )}

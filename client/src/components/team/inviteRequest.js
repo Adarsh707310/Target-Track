@@ -59,7 +59,7 @@ class Show_InviteRequest extends Component {
       <div class="card cyan darken-3">
         <div class="card-content white-text">
           <span class="card-title">{obj.name}</span>
-          <p>Information: some Information</p>
+          
         </div>
         <div class="card-action">
           <Link

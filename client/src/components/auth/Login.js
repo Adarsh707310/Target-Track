@@ -66,7 +66,8 @@ render() {
 return (
       <section class="bg-solid-light slideContainer strut-slide-0" style={{  
         backgroundImage: `url(${Login_image})`,
-        backgroundPosition: 'center',
+        backgroundPosition: 'absolute',
+        height:"150%",
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         backgroundAttachment: 'fixed',
@@ -153,7 +154,7 @@ return (
             <div>
             .<br/><br/>
             <br/><br/>
-            <br/><br/>
+            <br/><br/><br/><br/><br/><br/>
             </div>
           </div>
         </div>

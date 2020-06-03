@@ -9,6 +9,13 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  KeyboardTimePicker,
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 //import TextField from '@material-ui/core/TextField';
 import edit_image from '../image/edit01.jpg';
 
@@ -47,7 +54,10 @@ class Add extends Component {
     })
     .catch(err=> json({message:"erros catch axios get"}));
   }
-
+  handleDateChange = (date) => {
+    this.setState({due_date: date});
+    console.log(this.state);
+  };
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({
@@ -155,20 +165,38 @@ return (
                 </FormControl>
               </div>
 
-              <div className="input-field col s12" style={{marginTop: "30px"}}>
-                <input
-                  onChange={this.onChange}
-                  value={this.state.due_date}
-                  error={errors.due_date}
-                  id="due_date"
-                  type="Date"
-                  className={classnames("", {
-                    invalid: errors.due_date
-                  })}
-                />
-                <label htmlFor="due_date">Due Date</label>
-                <span className="red-text">{errors.due_date}</span>
-              </div>              
+              <div className="input-field col s12" style={{marginTop:"4%"}}>
+                      
+                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                       <KeyboardDatePicker
+                         margin="normal"
+                         id="dueDate"
+                         variant="outlined"
+                         format="dd/MM/yyyy"
+                         value={this.state.due_date}
+                         error={errors.due_date}
+                         onChange={this.handleDateChange}
+                         KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                
+                         }}
+                        
+                        />
+                        
+                    <KeyboardTimePicker
+                      margin="normal"
+                      id="time-picker"
+                      variant="outlined"
+                      value={this.state.due_date}
+                      error={errors.due_date}
+                      onChange={this.handleDateChange}
+                      KeyboardButtonProps={{
+                       'aria-label': 'change time',
+                      }}
+                     />
+                   </MuiPickersUtilsProvider>
+                </div>
+                
               
               
               <div className="col s12" style={{ paddingLeft: "11.250px" }}>
